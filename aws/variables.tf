@@ -16,10 +16,15 @@ variable "region" {
 # S3バケットに関する変数
 # ---------------------------------------------
 
-variable "backend_s3_bucket_name" {
-  description = "The name of the S3 bucket"
-  type        = string
-}
+# variable "backend_s3_bucket_name" {
+#   description = "The name of the S3 bucket"
+#   type        = string
+# }
+
+# variable "gha_bucket_name" {
+#   description = "The name of the S3 bucket"
+#   type        = string
+# }
 
 variable "acl" {
   description = "The ACL policy for the S3 bucket"
@@ -39,7 +44,4 @@ variable "environment" {
 }
 
 
-# variable "terraform_state_bucket" {
-#   description = "The name of the S3 bucket used for Terraform state"
-#   type        = string
-# }
+
