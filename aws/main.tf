@@ -7,7 +7,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.26"
+      version = "~> 3.76"
     }
   }
   backend "s3" {
@@ -38,24 +38,24 @@ resource "random_string" "s3_bucket_name" {
   upper   = false
 }
 
-# Terraform backend用のS3バケット
-module "s3_bucket" {
-  source      = "./modules/s3"  # S3モジュールを参照
-  backend_s3_bucket_name = "${var.backend_s3_bucket_name}-${random_string.s3_bucket_name.result}"  # ランダム文字列を追加した一意のバケット名
-  acl         = "private"        # ACL設定
-  versioning  = true             # バージョニングを有効化
-  environment = "dev"            # 環境タグ
-}
-
-# # ---------------------------------------------
-# # IAM用S3バケット作成
-# # ---------------------------------------------
-
-# # IAM用S3バケットモジュールの呼び出し
-# module "iam_oidc_s3" {
-#   source      = "./modules/s3"                     # S3モジュールを再利用
-#   bucket_name = "iam-oidc-bucket-${random_string.s3_bucket_name.result}"  # IAM用バケット名
-#   acl         = "private"                          # IAM用バケットのACL
-#   versioning  = true                               # IAM用バケットのバージョニングを有効化
-#   environment = "dev"                              # 環境タグ
+# # Terraform backend用のS3バケット
+# module "s3_bucket" {
+#   source      = "./modules/s3"  # S3モジュールを参照
+#   backend_s3_bucket_name = "${var.backend_s3_bucket_name}-${random_string.s3_bucket_name.result}"  # ランダム文字列を追加した一意のバケット名
+#   acl         = "private"        # ACL設定
+#   versioning  = true             # バージョニングを有効化
+#   environment = "dev"            # 環境タグ
 # }
+
+# ---------------------------------------------
+# GHA用S3バケット作成
+# ---------------------------------------------
+
+# GHA用S3バケットモジュールの呼び出し
+module "gha_s3" {
+  source      = "./modules/s3"                     # S3モジュールを再利用
+  gha_bucket_name = "gha-bucket-${random_string.s3_bucket_name.result}"  # IAM用バケット名
+  acl         = "private"                          # IAM用バケットのACL
+  versioning  = true                               # IAM用バケットのバージョニングを有効化
+  environment = "dev"                              # 環境タグ
+}
