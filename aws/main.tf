@@ -32,16 +32,17 @@ provider "aws" {
 # S3バケット作成（Terraform backend用）
 # ---------------------------------------------
 
-resource "random_string" "s3_bucket_name" {
-  length  = 6
-  special = false
-  upper   = false
-}
+# resource "random_string" "s3_bucket_name" {
+#   length  = 6
+#   special = false
+#   upper   = false
+# }
 
 # Terraform backend用のS3バケット
 module "s3_bucket" {
   source      = "./modules/s3"  # S3モジュールを参照
   backend_s3_bucket_name = "${var.backend_s3_bucket_name}-${random_string.s3_bucket_name.result}"  # ランダム文字列を追加した一意のバケット名
+  # backend_s3_bucket_name = "tf-s3-backend-n80ddd"
   acl         = "private"        # ACL設定
   versioning  = true             # バージョニングを有効化
   environment = "dev"            # 環境タグ
