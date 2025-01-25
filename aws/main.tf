@@ -59,3 +59,15 @@ module "gha_s3" {
   versioning  = true                               # IAM用バケットのバージョニングを有効化
   environment = "dev"                              # 環境タグ
 }
+
+# ---------------------------------------------
+# CI/CD関連モジュール作成
+# ---------------------------------------------
+
+module "cicd" {
+  source = "./cicd"
+  github_oidc_provider_arn = var.github_oidc_provider_arn
+  # github_oidc_provider_arn = data.aws_iam_openid_connect_provider.github.arn
+  github_repo_pattern     = var.github_repo_pattern  # 必須変数を渡す
+  aws_account_id          = var.aws_account_id  # 必須変数を渡す
+}
