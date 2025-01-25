@@ -47,4 +47,6 @@ jobs:
         run: terraform init -no-color
       
       - name: Run terraform validate
-        run: terraform validate -no-color
+        run: |
+          cd aws/
+          terraform validate -no-color
