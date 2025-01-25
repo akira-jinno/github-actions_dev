@@ -69,6 +69,6 @@ variable "github_oidc_provider_arn" {
 
 # GitHub リポジトリの識別用パターン  いらないかも？
 variable "github_repo_pattern" {
-  description   = "GitHub repository pattern for the CI/CD role (e.g., repo:<organization_name>/<repo_name> or repo:<organization_name>/*)"
+  description = "GitHub repository pattern for the CI/CD role (e.g., repo:<organization_name>/<repo_name> or repo:<organization_name>/*)"
   type        = string
 }

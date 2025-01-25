@@ -34,6 +34,5 @@ jobs:
 
       - name: Run terraform fmt -check
         run: |
-          cd ../
           terraform fmt -check -recursive
         # Terraformファイルが整形されているかをチェックするコマンド,サブディレクトリも再帰的にスキャン
