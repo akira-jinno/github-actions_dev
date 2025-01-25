@@ -33,4 +33,6 @@ jobs:
         # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
 
       - name: Run terraform fmt -check
-        run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
+        run: |
+          terraform fmt -check
+        # Terraformファイルが整形されているかをチェックするコマンド
