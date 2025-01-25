@@ -44,4 +44,7 @@ jobs:
         run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
 
       - name: Run terraform init
-        run: terraform init -no-color #
+        run: terraform init -no-color
+      
+      - name: Run terraform validate
+        run: terraform validate -no-color
