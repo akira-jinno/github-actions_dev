@@ -1,23 +1,33 @@
-name: "gha-test"
+name: "infra preview"
 
 on:
   push:
     branches:
-      - feature/workflows-test
+      - feature/workflows-test # 特定のブランチ "feature/workflows-test" にプッシュされたときにトリガー
     paths:
-      - aws/**
-      - github/**
-      - .github/workflows/**
-  workflow_dispatch:
+      - aws/**                  # aws/以下のファイルに変更があった場合にトリガー
+      - github/**               # github/以下のファイルに変更があった場合にトリガー
+      - .github/workflows/**    # .github/workflows/以下のワークフロー関連ファイルが変更された場合にトリガー
+  workflow_dispatch:            # 手動でこのワークフローをトリガーすることも可能
 
 permissions:
-  id-token: write
-  contents: read
+  id-token: write              # IDトークンの書き込み権限を設定
+  contents: read               # リポジトリの内容を読み取る権限を設定
+
+env:
+  TF_VIRSIONS: 1.10.3          # Terraformのバージョンを指定する環境変数
 
 jobs:
   preview:
-    name: "Preview"
-    runs-on: ubuntu-latest
+    name: "Preview"           # ジョブ名 "Preview"
+    runs-on: ubuntu-latest     # ジョブの実行環境として最新のUbuntuイメージを使用
     steps:
-      - run: |
-          echo "Hello World"
+      - name: Checkout repository
+        uses: actions/checkout@v4 # リポジトリのコードをクローンするアクション
+        # このステップでは、リポジトリ内のすべてのファイルを取得し、後続のステップで使用可能にします
+      
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3 # Terraformをセットアップするアクション
+        with: 
+          terraform_version: ${{ env.TF_VIRSIONS }} # 環境変数で指定されたTerraformバージョンを使用
+        # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
