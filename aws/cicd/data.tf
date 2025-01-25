@@ -22,7 +22,7 @@
 # ---------------------------------------------
 
 resource "aws_iam_openid_connect_provider" "github" {
-  url = "https://token.actions.githubusercontent.com"  # GitHub OIDC プロバイダー URL
-  client_id_list = ["sts.amazonaws.com"]  # GitHub Actions 用の標準的なクライアントID
-  thumbprint_list   = ["9e99a48a9960a6bb5e7a7e49ca2922d3c41b3c1b"]  # GitHub OIDC サムプリント
+  url             = "https://token.actions.githubusercontent.com" # GitHub OIDC プロバイダー URL
+  client_id_list  = ["sts.amazonaws.com"]                         # GitHub Actions 用の標準的なクライアントID
+  thumbprint_list = ["9e99a48a9960a6bb5e7a7e49ca2922d3c41b3c1b"]  # GitHub OIDC サムプリント
 }
