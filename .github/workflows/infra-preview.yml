@@ -33,12 +33,12 @@ jobs:
           terraform_version: ${{ env.TF_VIRSIONS }} # 環境変数で指定されたTerraformバージョンを使用
         # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
 
-      - name: Configure AWS Credential
-        uses: aws-actions/configure-aws-credentials@v4 # AWSクレデンシャルを設定するアクション
-        with:
-          aws-region: ${{ env.AWS_RERSION }}
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-        # AWSリソースにアクセスするために必要な認証情報を構成します
+      # - name: Configure AWS Credential
+      #   uses: aws-actions/configure-aws-credentials@v4 # AWSクレデンシャルを設定するアクション
+      #   with:
+      #     aws-region: ${{ env.AWS_RERSION }}
+      #     role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+      #   # AWSリソースにアクセスするために必要な認証情報を構成します
 
       - name: Run terraform fmt -check
         run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
