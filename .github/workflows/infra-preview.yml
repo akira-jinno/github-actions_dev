@@ -1,4 +1,4 @@
-name: "infra preview"
+name: "infrastructure preview" # ワークフロー名を "infrastructure preview" に変更
 
 on:
   push:
@@ -19,7 +19,7 @@ env:
 
 jobs:
   preview:
-    name: "Preview"           # ジョブ名 "Preview"
+    name: "Terraform format"   # ジョブ名を "Terraform format" に変更
     runs-on: ubuntu-latest     # ジョブの実行環境として最新のUbuntuイメージを使用
     steps:
       - name: Checkout repository
@@ -31,3 +31,6 @@ jobs:
         with: 
           terraform_version: ${{ env.TF_VIRSIONS }} # 環境変数で指定されたTerraformバージョンを使用
         # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
+
+      - name: Run terraform fmt -check
+        run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
