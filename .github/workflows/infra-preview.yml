@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - feature/workflows-test
-    path:
+    paths:
       - aws/**
       - github/**
       - .github/workflows/**
