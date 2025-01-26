@@ -20,7 +20,7 @@ resource "aws_iam_role" "github_actions_role" {
         Action = "sts:AssumeRoleWithWebIdentity" # Web Identity トークンを使ったロールの引き受けを許可
         Condition = {
           # 条件を指定
-          StringEquals = {
+          StringLike = {
             # トークンの Audience が "sts.amazonaws.com" であることを確認
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
 
