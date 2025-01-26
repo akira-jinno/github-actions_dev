@@ -53,11 +53,11 @@ resource "random_string" "s3_bucket_name" {
 
 # GHA用S3バケットモジュールの呼び出し
 module "gha_s3" {
-  source      = "./modules/s3"                     # S3モジュールを再利用
-  gha_bucket_name = "gha-bucket-${random_string.s3_bucket_name.result}"  # IAM用バケット名
-  acl         = "private"                          # IAM用バケットのACL
-  versioning  = true                               # IAM用バケットのバージョニングを有効化
-  environment = "dev"                              # 環境タグ
+  source          = "./modules/s3"                                      # S3モジュールを再利用
+  gha_bucket_name = "gha-bucket-${random_string.s3_bucket_name.result}" # IAM用バケット名
+  acl             = "private"                                           # IAM用バケットのACL
+  versioning      = true                                                # IAM用バケットのバージョニングを有効化
+  environment     = "dev"                                               # 環境タグ
 }
 
 # ---------------------------------------------
@@ -65,9 +65,9 @@ module "gha_s3" {
 # ---------------------------------------------
 
 module "cicd" {
-  source = "./cicd"
+  source                   = "./cicd"
   github_oidc_provider_arn = var.github_oidc_provider_arn
   # github_oidc_provider_arn = data.aws_iam_openid_connect_provider.github.arn
-  github_repo_pattern     = var.github_repo_pattern  # 必須変数を渡す
-  aws_account_id          = var.aws_account_id  # 必須変数を渡す
+  github_repo_pattern = var.github_repo_pattern # 必須変数を渡す
+  aws_account_id      = var.aws_account_id      # 必須変数を渡す
 }

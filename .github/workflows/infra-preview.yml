@@ -1,0 +1,61 @@
+name: "infrastructure preview" # ワークフロー名を "infrastructure preview" に変更
+
+on:
+  push:
+    branches:
+      - feature/workflows-test # 特定のブランチ "feature/workflows-test" にプッシュされたときにトリガー
+    paths:
+      - aws/**                  # aws/以下のファイルに変更があった場合にトリガー
+      - github/**               # github/以下のファイルに変更があった場合にトリガー
+      - .github/workflows/**    # .github/workflows/以下のワークフロー関連ファイルが変更された場合にトリガー
+  workflow_dispatch:            # 手動でこのワークフローをトリガーすることも可能
+
+permissions:
+  id-token: write              # IDトークンの書き込み権限を設定
+  contents: read               # リポジトリの内容を読み取る権限を設定
+
+defaults:
+  run:
+    working-directory: aws
+
+env:
+  TF_VIRSIONS: 1.10.3          # Terraformのバージョンを指定する環境変数
+  AWS_RESION: ap-northeast-1         # Terraformのバージョンを指定する環境変数
+  # AWS_PROFILE: aws-test-user
+
+jobs:
+  preview:
+    name: "Terraform format"   # ジョブ名を "Terraform format" に変更
+    runs-on: ubuntu-latest     # ジョブの実行環境として最新のUbuntuイメージを使用
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # リポジトリのコードをクローンするアクション
+        # このステップでは、リポジトリ内のすべてのファイルを取得し、後続のステップで使用可能にします
+      
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3 # Terraformをセットアップするアクション
+        with: 
+          terraform_version: ${{ env.TF_VIRSIONS }} # 環境変数で指定されたTerraformバージョンを使用
+        # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
+
+      - name: Configure AWS Credential
+        uses: aws-actions/configure-aws-credentials@v4 # AWSクレデンシャルを設定するアクション
+        with:
+        #   aws-region: ${{ env.AWS_RESION }}
+        #   role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+        # # AWSリソースにアクセスするために必要な認証情報を構成します
+        # run: |
+          aws-access-key-id: ${{ secrets.AWS_TEST_AWS_USER_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_TEST_USER_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_RESION }}
+      
+      - name: Run terraform fmt -check
+        run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
+
+      - name: Run terraform init
+        run: terraform init -no-color
+      
+      - name: Run terraform validate
+        run: |
+          cd aws/
+          terraform validate -no-color
