@@ -21,6 +21,7 @@ defaults:
 env:
   TF_VIRSIONS: 1.10.3          # Terraformのバージョンを指定する環境変数
   AWS_RESION: ap-northeast-1         # Terraformのバージョンを指定する環境変数
+  AWS_PROFILE: tf-sso_profile
 
 jobs:
   preview:
@@ -38,11 +39,14 @@ jobs:
         # このステップでは、指定したバージョンのTerraformをインストールし、実行可能な状態を作ります
 
       - name: Configure AWS Credential
-        uses: aws-actions/configure-aws-credentials@v4 # AWSクレデンシャルを設定するアクション
-        with:
-          aws-region: ${{ env.AWS_RESION }}
-          role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
-        # AWSリソースにアクセスするために必要な認証情報を構成します
+        # uses: aws-actions/configure-aws-credentials@v4 # AWSクレデンシャルを設定するアクション
+        # with:
+        #   aws-region: ${{ env.AWS_RESION }}
+        #   role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
+        # # AWSリソースにアクセスするために必要な認証情報を構成します
+        run: |
+          aws configure set region ${{ env.AWS_RESION }}  # AWSリージョン設定
+          aws configure set profile ${{ env.AWS_PROFILE }}  # プロファイル設定
 
       - name: AWS sts get-caller-identity
         run: aws sts get-caller-identity
