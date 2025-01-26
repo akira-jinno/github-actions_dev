@@ -47,9 +47,6 @@ jobs:
         run: |
           aws configure set region ${{ env.AWS_RESION }}  # AWSリージョン設定
           aws configure set profile ${{ env.AWS_PROFILE }}  # プロファイル設定
-
-      - name: AWS sts get-caller-identity
-        run: aws sts get-caller-identity
       
       - name: Run terraform fmt -check
         run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
