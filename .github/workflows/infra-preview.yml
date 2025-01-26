@@ -44,6 +44,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
         # AWSリソースにアクセスするために必要な認証情報を構成します
 
+      - name: AWS SSO Login
+        run: aws sso login --profile tf-sso_profile
+      
       - name: Run terraform fmt -check
         run: terraform fmt -check # Terraformファイルが整形されているかをチェックするコマンド
 
