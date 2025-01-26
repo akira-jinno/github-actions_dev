@@ -22,12 +22,12 @@ resource "aws_iam_role" "github_actions_role" {
           # 条件を指定
           StringLike = {
             # トークンの Audience が "sts.amazonaws.com" であることを確認
-            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
+            # "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
 
             # トークンの Subject が指定した GitHub リポジトリパターンに一致することを確認
             # var.github_repo_pattern は変数で定義されたリポジトリパターンを参照
-            "token.actions.githubusercontent.com:sub" = var.github_repo_pattern
-            # "token.actions.githubusercontent.com:sub" = "repo:*"
+            # "token.actions.githubusercontent.com:sub" = var.github_repo_pattern
+            "token.actions.githubusercontent.com:sub" = "repo:*"
           }
         }
       }
